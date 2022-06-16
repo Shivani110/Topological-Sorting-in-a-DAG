@@ -1,0 +1,83 @@
+<html>
+<body>
+<script>
+function Topological_sortfn(n) 
+{
+    var x   = {};
+    var s  = [];
+    var Visit = {}; 
+  
+    var N = function(i) 
+    {
+      this.i = i;
+      this.z = [];
+    }
+  n.forEach(function(b) 
+    {
+      var from = b[0], to = b[1];
+      if (!x[from]) x[from] = new N(from);
+      if (!x[to]) x[to]     = new N(to);
+      x[from].z.push(to);
+    });
+
+    Object.keys(x).forEach(function T_Visit(u, v)
+    {
+      var k = x[u],
+          i   = k.i;
+      if (Visit[u]) return;  
+      if (!Array.isArray(v)) v = [];
+      v.push(i);
+      Visit[u] = true;
+      k.z.forEach(function(r)
+      {
+        if (v.indexOf(r) >= 0)  
+          throw new Error('Chain is closed : ' +  r + ' is in ' + i);
+        T_Visit(r.toString(), v.map(function(a) { return a })); 
+      });
+      s.unshift(i);
+    });
+    return s;
+  }
+  function Topological_sorting()
+  {
+    var n = [ [1, 2], [2, 3], [3, 4], [4, 5], [5, 6] ];
+    var s = Topological_sortfn(n);
+    document.write(s);
+    n = [ ['Q', 'W'], ['A', 'W'], ['Q', 'A'] ];
+    try 
+    {
+     n = Topological_sortfn(n);
+    }
+    catch (q)
+    {
+      document.write(q.message);
+    }
+    var M_ax = 1000, j = 40;
+    function Rint(M_ax)
+    {
+      return Math.floor(Math.random() * M_ax) + 1;
+    }
+    n = (function() 
+    {
+      var t = [], p = 0;
+      while (p++ < j) t.push(Rint(M_ax), Rint(M_ax));
+      return t;
+    })();
+    try 
+    {
+      s = Topological_sortfn(n);
+      document.write("Successful", s);
+    }
+    catch (q)
+    {
+      document.write("Fail", q.message);
+    }
+  }
+  if (typeof exports == 'object' && exports === this) 
+  {
+    module.exports = Topological_sortfn;
+    if (process.argv[1] === __filename) Topological_sorting();
+  }
+</script>
+</body>
+</html>
